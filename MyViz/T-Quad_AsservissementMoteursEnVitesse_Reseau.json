@@ -1,0 +1,318 @@
+{
+	"version": 1,
+	"allow_edit": true,
+	"plugins": [],
+	"panes": [
+		{
+			"width": 1,
+			"row": {
+				"2": 9,
+				"3": 1,
+				"4": 1,
+				"5": 7
+			},
+			"col": {
+				"2": 2,
+				"3": 2,
+				"4": 3,
+				"5": 3
+			},
+			"col_width": "2",
+			"widgets": [
+				{
+					"type": "plot",
+					"settings": {
+						"title": "Tension et vitesses",
+						"xaxis": "datasource_column",
+						"time": "datasources[\"ws\"][\"Temps\"]",
+						"time_window": 10,
+						"value": [
+							"datasources[\"ws\"][\"Consigne\"]",
+							"datasources[\"ws\"][\"omegaArriereDroit\"]",
+							"datasources[\"ws\"][\"omegaArriereGauche\"]",
+							"datasources[\"ws\"][\"omegaAvantDroit\"]",
+							"datasources[\"ws\"][\"omegaAvantGauche\"]"
+						],
+						"y_axis_min_range": "-1,1",
+						"include_legend": true,
+						"legendStr": "omega ref,omega arrière droit, omega arrière gauche, omega avant droit, omega avant gauche",
+						"height": 4
+					}
+				}
+			]
+		},
+		{
+			"title": "Démarrage",
+			"width": 1,
+			"row": {
+				"3": 1,
+				"4": 9
+			},
+			"col": {
+				"3": 1,
+				"4": 2
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "sshcommand",
+					"settings": {
+						"title": "Marche / Arrêt de l'application",
+						"host": "192.168.0.199",
+						"login": "root",
+						"password": "tquad",
+						"oncommand": "/root/programmes_python/startAsservissementVitesse.sh",
+						"offcommand": "/root/programmes_python/stopPython.sh",
+						"ontext": "ON",
+						"offtext": "OFF",
+						"initialstate": false
+					}
+				}
+			]
+		},
+		{
+			"title": "Consignes moteurs",
+			"width": 1,
+			"row": {
+				"3": 11,
+				"4": 1,
+				"5": 9
+			},
+			"col": {
+				"3": 1,
+				"4": 2,
+				"5": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "switchbutton",
+					"settings": {
+						"title": "Type de signal (carré ou sinus)",
+						"datasourcename": "ws",
+						"variable": "datasources[\"ws\"][\"typeSignal\"]",
+						"yestext": "Sinus",
+						"notext": "Carré",
+						"initialstate": false
+					}
+				},
+				{
+					"type": "slider",
+					"settings": {
+						"title": "Offset",
+						"datasourcename": "ws",
+						"variable": "datasources[\"ws\"][\"offset\"]",
+						"formula": "x",
+						"initialvalue": 0,
+						"min": -20,
+						"max": 20,
+						"resolution": 1,
+						"resetvalue": 0,
+						"resetcaption": "Reset"
+					}
+				},
+				{
+					"type": "slider",
+					"settings": {
+						"title": "Amplitude",
+						"datasourcename": "ws",
+						"variable": "datasources[\"ws\"][\"amplitude\"]",
+						"formula": "x",
+						"initialvalue": 0,
+						"min": 0,
+						"max": 20,
+						"resolution": 1,
+						"resetvalue": 0,
+						"resetcaption": "Reset"
+					}
+				},
+				{
+					"type": "slider",
+					"settings": {
+						"title": "Fréquence",
+						"datasourcename": "ws",
+						"variable": "datasources[\"ws\"][\"frequence\"]",
+						"formula": "x",
+						"initialvalue": 0,
+						"min": 0,
+						"max": 1,
+						"resolution": 2,
+						"resetvalue": 0,
+						"resetcaption": "Reset"
+					}
+				}
+			]
+		},
+		{
+			"title": "Vitesses moteurs",
+			"width": 1,
+			"row": {
+				"3": 11,
+				"4": 9,
+				"5": 9
+			},
+			"col": {
+				"3": 3,
+				"4": 4,
+				"5": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "text_widget",
+					"settings": {
+						"title": "Vitesse moteur arrière droit",
+						"size": "regular",
+						"value": "datasources[\"ws\"][\"omegaArriereDroit\"]",
+						"animate": false,
+						"units": "rad/s"
+					}
+				},
+				{
+					"type": "text_widget",
+					"settings": {
+						"title": "Vitesse moteur arrière gauche",
+						"size": "regular",
+						"value": "datasources[\"ws\"][\"omegaArriereGauche\"]",
+						"animate": false,
+						"units": "rad/s"
+					}
+				},
+				{
+					"type": "text_widget",
+					"settings": {
+						"title": "Vitesse moteur avant droit",
+						"size": "regular",
+						"value": "datasources[\"ws\"][\"omegaAvantDroit\"]",
+						"animate": false,
+						"units": "rad/s"
+					}
+				},
+				{
+					"type": "text_widget",
+					"settings": {
+						"title": "Vitesse moteur avant gauche",
+						"size": "regular",
+						"value": "datasources[\"ws\"][\"omegaAvantGauche\"]",
+						"animate": false,
+						"units": "rad/s"
+					}
+				}
+			]
+		},
+		{
+			"title": "Choix des moteurs",
+			"width": 1,
+			"row": {
+				"3": 5,
+				"4": 11,
+				"5": 9
+			},
+			"col": {
+				"3": 1,
+				"4": 2,
+				"5": 2
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "slider",
+					"settings": {
+						"title": "Moteur à piloter",
+						"datasourcename": "ws",
+						"variable": "datasources[\"ws\"][\"moteurint\"]",
+						"formula": "x",
+						"initialvalue": 0,
+						"min": 0,
+						"max": 4,
+						"resolution": 0,
+						"resetvalue": 0,
+						"resetcaption": "Réinitialisation"
+					}
+				}
+			]
+		},
+		{
+			"title": "Gains du PID",
+			"width": 1,
+			"row": {
+				"3": 11,
+				"4": 17
+			},
+			"col": {
+				"3": 2,
+				"4": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "slider",
+					"settings": {
+						"title": "Kp",
+						"datasourcename": "ws",
+						"variable": "datasources[\"ws\"][\"Kp\"]",
+						"formula": "x",
+						"initialvalue": 0.045,
+						"min": 0,
+						"max": 0.5,
+						"resolution": 3,
+						"resetvalue": 0.045,
+						"resetcaption": "Réinitialisation"
+					}
+				},
+				{
+					"type": "slider",
+					"settings": {
+						"title": "Ki",
+						"datasourcename": "ws",
+						"variable": "datasources[\"ws\"][\"Ki\"]",
+						"formula": "x",
+						"initialvalue": 2.45,
+						"min": 0,
+						"max": 10,
+						"resolution": 2,
+						"resetvalue": 2.45,
+						"resetcaption": "Réinitialisation"
+					}
+				}
+			]
+		},
+		{
+			"title": "Moniteur série",
+			"width": 1,
+			"row": {
+				"3": 21,
+				"4": 23
+			},
+			"col": {
+				"3": 2,
+				"4": 1
+			},
+			"col_width": "2",
+			"widgets": [
+				{
+					"type": "textarea",
+					"settings": {
+						"nblines_window": "10",
+						"value": [
+							"datasources[\"ws\"][\"Raw\"]"
+						]
+					}
+				}
+			]
+		}
+	],
+	"datasources": [
+		{
+			"name": "ws",
+			"type": "websocket",
+			"settings": {
+				"host": "ws://192.168.0.199:9090/ws",
+				"variables_to_send": "typeSignal,offset,amplitude,frequence,moteurint,Kp,Ki",
+				"refresh_rate": "500",
+				"checksum": "sum"
+			}
+		}
+	],
+	"columns": 3
+}
