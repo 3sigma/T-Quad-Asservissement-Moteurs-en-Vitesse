@@ -1,7 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from pyduino_pcduino import * # importe les fonctions Arduino pour Python
+##################################################################################
+# Programme d'asservissement en vitesse des moteurs du robot T-Quad,
+# disponible à l'adresse:
+# http://boutique.3sigma.fr/12-robots
+#
+# Auteur: 3Sigma
+# Version 1.1.1 - 15/12/2016
+##################################################################################
+
+# Importe les fonctions Arduino pour Python
+from pyduino_pcduino import *
 
 # Imports pour la communication i2c avec l'Arduino Mega
 from mega import Mega
@@ -131,7 +141,8 @@ def CalculVitesse():
         commandeArriereDroit, commandeArriereGauche, commandeAvantDroit, commandeAvantGauche, \
         omegarefArriereDroit, omegarefArriereGauche, omegarefAvantDroit, omegarefAvantGauche, \
         codeurArriereDroitDeltaPosPrec, codeurArriereGaucheDeltaPosPrec, codeurAvantDroitDeltaPosPrec, codeurAvantGaucheDeltaPosPrec, tprec, \
-        idecimLectureTension, decimLectureTension, decimErreurLectureTension, tensionAlim
+        idecimLectureTension, decimLectureTension, decimErreurLectureTension, tensionAlim, \
+        typeSignal, offset, amplitude, frequence, moteurint, vref
     
     tdebut = time.time()
         
@@ -166,6 +177,54 @@ def CalculVitesse():
     omegaAvantDroit = -2 * ((2 * 3.141592 * codeurAvantDroitDeltaPos) / 1200) / (Nmoy * dt)  # en rad/s
     omegaAvantGauche = 2 * ((2 * 3.141592 * codeurAvantGaucheDeltaPos) / 1200) / (Nmoy * dt)  # en rad/s
         
+    tcourant = time.time() - T0
+    # Calcul de la consigne en fonction des données reçues sur la liaison série
+    if typeSignal == 0: # signal carré
+        if frequence > 0:
+            if (tcourant - (float(int(tcourant*frequence)))/frequence < 1/(2*frequence)):
+                vref = offset + amplitude
+            else:
+                vref = offset
+        else:
+            vref = offset + amplitude
+    else: # sinus
+        if frequence > 0:
+            vref = offset + amplitude * sin(2*3.141592*frequence*tcourant)
+        else:
+            vref = offset + amplitude
+
+    # Application de la consigne sur chaque moteur
+    if moteurint == 1:
+        omegarefArriereDroit = vref
+        omegarefArriereGauche = 0.
+        omegarefAvantDroit = 0.
+        omegarefAvantGauche = 0.
+    elif moteurint == 2:
+        omegarefArriereDroit = 0.
+        omegarefArriereGauche = vref
+        omegarefAvantDroit = 0.
+        omegarefAvantGauche = 0.
+    elif moteurint == 3:
+        omegarefArriereDroit = 0.
+        omegarefArriereGauche = 0.
+        omegarefAvantDroit = vref
+        omegarefAvantGauche = 0.
+    elif moteurint == 4:
+        omegarefArriereDroit = 0.
+        omegarefArriereGauche = 0.
+        omegarefAvantDroit = 0.
+        omegarefAvantGauche = vref
+    elif moteurint == 5:
+        omegarefArriereDroit = vref
+        omegarefArriereGauche = vref
+        omegarefAvantDroit = vref
+        omegarefAvantGauche = vref
+    else:
+        omegarefArriereDroit = 0.
+        omegarefArriereGauche = 0.
+        omegarefAvantDroit = 0.
+        omegarefAvantGauche = 0.
+            
     dt2 = time.time() - tprec
     tprec = time.time()
     
@@ -346,49 +405,6 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         if jsonMessage.get('moteurint') != None:
             moteurint = int(jsonMessage.get('moteurint'))
         
-        tcourant = time.time() - T0
-        # Calcul de la consigne en fonction des données reçues sur la liaison série
-        if typeSignal == 0: # signal carré
-            if frequence > 0:
-                if (tcourant - (float(int(tcourant*frequence)))/frequence < 1/(2*frequence)):
-                    vref = offset + amplitude
-                else:
-                    vref = offset
-            else:
-                vref = offset + amplitude
-        else: # sinus
-            if frequence > 0:
-                vref = offset + amplitude * sin(2*3.141592*frequence*tcourant)
-            else:
-                vref = offset + amplitude
-
-        # Application de la consigne sur chaque moteur
-        if moteurint == 1:
-            omegarefArriereDroit = vref
-            omegarefArriereGauche = 0.
-            omegarefAvantDroit = 0.
-            omegarefAvantGauche = 0.
-        elif moteurint == 2:
-            omegarefArriereDroit = 0.
-            omegarefArriereGauche = vref
-            omegarefAvantDroit = 0.
-            omegarefAvantGauche = 0.
-        elif moteurint == 3:
-            omegarefArriereDroit = 0.
-            omegarefArriereGauche = 0.
-            omegarefAvantDroit = vref
-            omegarefAvantGauche = 0.
-        elif moteurint == 4:
-            omegarefArriereDroit = 0.
-            omegarefArriereGauche = 0.
-            omegarefAvantDroit = 0.
-            omegarefAvantGauche = vref
-        else:
-            omegarefArriereDroit = 0.
-            omegarefArriereGauche = 0.
-            omegarefAvantDroit = 0.
-            omegarefAvantGauche = 0.
-            
         if not socketOK:
             omegarefArriereDroit = 0.
             omegarefArriereGauche = 0.
@@ -407,7 +423,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
     def sendToSocket(self):
         global socketOK, commandeArriereDroit, commandeArriereGauche, commandeAvantDroit, commandeAvantGauche, \
-            omegaArriereDroit, omegaArriereGauche, omegaAvantDroit, omegaAvantGauche, distance, distanceFiltre
+            omegaArriereDroit, omegaArriereGauche, omegaAvantDroit, omegaAvantGauche, distance, distanceFiltre, vref
         
         tcourant = time.time() - T0
         aEnvoyer = json.dumps({'Temps':("%.2f" % tcourant), \
@@ -416,9 +432,9 @@ class WSHandler(tornado.websocket.WebSocketHandler):
                                 'omegaArriereGauche':("%.2f" % omegaArriereGauche), \
                                 'omegaAvantDroit':("%.2f" % omegaAvantDroit), \
                                 'omegaAvantGauche':("%.2f" % omegaAvantGauche), \
-                                'commandeArriereDroit':("%.2f" % commandeArriereDroit), \
+                                'commandeArriereDroit':("%.2f" % -commandeArriereDroit), \
                                 'commandeArriereGauche':("%.2f" % commandeArriereGauche), \
-                                'commandeAvantDroit':("%.2f" % commandeAvantDroit), \
+                                'commandeAvantDroit':("%.2f" % -commandeAvantDroit), \
                                 'commandeAvantGauche':("%.2f" % commandeAvantGauche), \
                                 'Raw':("%.2f" % tcourant) \
                                 + "," + ("%.2f" % vref) \
