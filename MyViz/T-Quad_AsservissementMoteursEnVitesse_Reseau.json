@@ -4,10 +4,11 @@
 	"plugins": [],
 	"panes": [
 		{
+			"title": "Télémétrie",
 			"width": 1,
 			"row": {
 				"2": 9,
-				"3": 1,
+				"3": 5,
 				"4": 1,
 				"5": 7
 			},
@@ -25,7 +26,7 @@
 						"title": "Tension et vitesses",
 						"xaxis": "datasource_column",
 						"time": "datasources[\"ws\"][\"Temps\"]",
-						"time_window": 10,
+						"time_window": "4",
 						"value": [
 							"datasources[\"ws\"][\"Consigne\"]",
 							"datasources[\"ws\"][\"omegaArriereDroit\"]",
@@ -36,6 +37,25 @@
 						"y_axis_min_range": "-1,1",
 						"include_legend": true,
 						"legendStr": "omega ref,omega arrière droit, omega arrière gauche, omega avant droit, omega avant gauche",
+						"height": 4
+					}
+				},
+				{
+					"type": "plot",
+					"settings": {
+						"title": "Commandes",
+						"xaxis": "datasource_column",
+						"time": "datasources[\"ws\"][\"Temps\"]",
+						"time_window": "4",
+						"value": [
+							"datasources[\"ws\"][\"commandeArriereDroit\"]",
+							"datasources[\"ws\"][\"commandeArriereGauche\"]",
+							"datasources[\"ws\"][\"commandeAvantDroit\"]",
+							"datasources[\"ws\"][\"commandeAvantGauche\"]"
+						],
+						"y_axis_min_range": "-1,1",
+						"include_legend": true,
+						"legendStr": "Commande arrière droit,Commande arrière gauche,Commande avant droit,Commande avant gauche",
 						"height": 4
 					}
 				}
@@ -49,7 +69,7 @@
 				"4": 9
 			},
 			"col": {
-				"3": 1,
+				"3": 2,
 				"4": 2
 			},
 			"col_width": 1,
@@ -74,7 +94,7 @@
 			"title": "Consignes moteurs",
 			"width": 1,
 			"row": {
-				"3": 11,
+				"3": 1,
 				"4": 1,
 				"5": 9
 			},
@@ -144,103 +164,14 @@
 			]
 		},
 		{
-			"title": "Vitesses moteurs",
-			"width": 1,
-			"row": {
-				"3": 11,
-				"4": 9,
-				"5": 9
-			},
-			"col": {
-				"3": 3,
-				"4": 4,
-				"5": 3
-			},
-			"col_width": 1,
-			"widgets": [
-				{
-					"type": "text_widget",
-					"settings": {
-						"title": "Vitesse moteur arrière droit",
-						"size": "regular",
-						"value": "datasources[\"ws\"][\"omegaArriereDroit\"]",
-						"animate": false,
-						"units": "rad/s"
-					}
-				},
-				{
-					"type": "text_widget",
-					"settings": {
-						"title": "Vitesse moteur arrière gauche",
-						"size": "regular",
-						"value": "datasources[\"ws\"][\"omegaArriereGauche\"]",
-						"animate": false,
-						"units": "rad/s"
-					}
-				},
-				{
-					"type": "text_widget",
-					"settings": {
-						"title": "Vitesse moteur avant droit",
-						"size": "regular",
-						"value": "datasources[\"ws\"][\"omegaAvantDroit\"]",
-						"animate": false,
-						"units": "rad/s"
-					}
-				},
-				{
-					"type": "text_widget",
-					"settings": {
-						"title": "Vitesse moteur avant gauche",
-						"size": "regular",
-						"value": "datasources[\"ws\"][\"omegaAvantGauche\"]",
-						"animate": false,
-						"units": "rad/s"
-					}
-				}
-			]
-		},
-		{
-			"title": "Choix des moteurs",
-			"width": 1,
-			"row": {
-				"3": 5,
-				"4": 11,
-				"5": 9
-			},
-			"col": {
-				"3": 1,
-				"4": 2,
-				"5": 2
-			},
-			"col_width": 1,
-			"widgets": [
-				{
-					"type": "slider",
-					"settings": {
-						"title": "Moteur à piloter",
-						"datasourcename": "ws",
-						"variable": "datasources[\"ws\"][\"moteurint\"]",
-						"formula": "x",
-						"initialvalue": 0,
-						"min": 0,
-						"max": 4,
-						"resolution": 0,
-						"resetvalue": 0,
-						"resetcaption": "Réinitialisation"
-					}
-				}
-			]
-		},
-		{
 			"title": "Gains du PID",
 			"width": 1,
 			"row": {
-				"3": 11,
+				"3": 17,
 				"4": 17
 			},
 			"col": {
-				"3": 2,
+				"3": 1,
 				"4": 1
 			},
 			"col_width": 1,
@@ -281,7 +212,7 @@
 			"title": "Moniteur série",
 			"width": 1,
 			"row": {
-				"3": 21,
+				"3": 23,
 				"4": 23
 			},
 			"col": {
@@ -297,6 +228,29 @@
 						"value": [
 							"datasources[\"ws\"][\"Raw\"]"
 						]
+					}
+				}
+			]
+		},
+		{
+			"title": "Choix des moteurs",
+			"width": 1,
+			"row": {
+				"3": 1
+			},
+			"col": {
+				"3": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "select",
+					"settings": {
+						"title": "Moteur à piloter",
+						"datasourcename": "ws",
+						"variable": "datasources[\"ws\"][\"moteurint\"]",
+						"listcaptions": "Aucun,Arrière droit,Arrière gauche,Avant droit,Avant gauche,Tous",
+						"listvalues": "0,1,2,3,4,5"
 					}
 				}
 			]
