@@ -4,64 +4,6 @@
 	"plugins": [],
 	"panes": [
 		{
-			"title": "Télémétrie",
-			"width": 1,
-			"row": {
-				"2": 9,
-				"3": 5,
-				"4": 1,
-				"5": 7
-			},
-			"col": {
-				"2": 2,
-				"3": 2,
-				"4": 3,
-				"5": 3
-			},
-			"col_width": "2",
-			"widgets": [
-				{
-					"type": "plot",
-					"settings": {
-						"title": "Tension et vitesses",
-						"xaxis": "datasource_column",
-						"time": "datasources[\"ws\"][\"Temps\"]",
-						"time_window": "4",
-						"value": [
-							"datasources[\"ws\"][\"Consigne\"]",
-							"datasources[\"ws\"][\"omegaArriereDroit\"]",
-							"datasources[\"ws\"][\"omegaArriereGauche\"]",
-							"datasources[\"ws\"][\"omegaAvantDroit\"]",
-							"datasources[\"ws\"][\"omegaAvantGauche\"]"
-						],
-						"y_axis_min_range": "-1,1",
-						"include_legend": true,
-						"legendStr": "omega ref,omega arrière droit, omega arrière gauche, omega avant droit, omega avant gauche",
-						"height": 4
-					}
-				},
-				{
-					"type": "plot",
-					"settings": {
-						"title": "Commandes",
-						"xaxis": "datasource_column",
-						"time": "datasources[\"ws\"][\"Temps\"]",
-						"time_window": "4",
-						"value": [
-							"datasources[\"ws\"][\"commandeArriereDroit\"]",
-							"datasources[\"ws\"][\"commandeArriereGauche\"]",
-							"datasources[\"ws\"][\"commandeAvantDroit\"]",
-							"datasources[\"ws\"][\"commandeAvantGauche\"]"
-						],
-						"y_axis_min_range": "-1,1",
-						"include_legend": true,
-						"legendStr": "Commande arrière droit,Commande arrière gauche,Commande avant droit,Commande avant gauche",
-						"height": 4
-					}
-				}
-			]
-		},
-		{
 			"title": "Démarrage",
 			"width": 1,
 			"row": {
@@ -164,6 +106,89 @@
 			]
 		},
 		{
+			"title": "Choix des moteurs",
+			"width": 1,
+			"row": {
+				"3": 1
+			},
+			"col": {
+				"3": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "select",
+					"settings": {
+						"title": "Moteur à piloter",
+						"datasourcename": "ws",
+						"variable": "datasources[\"ws\"][\"moteurint\"]",
+						"listcaptions": "Aucun,Arrière droit,Arrière gauche,Avant droit,Avant gauche,Tous",
+						"listvalues": "0,1,2,3,4,5"
+					}
+				}
+			]
+		},
+		{
+			"title": "Télémétrie",
+			"width": 1,
+			"row": {
+				"2": 9,
+				"3": 5,
+				"4": 1,
+				"5": 7
+			},
+			"col": {
+				"2": 2,
+				"3": 2,
+				"4": 3,
+				"5": 3
+			},
+			"col_width": "2",
+			"widgets": [
+				{
+					"type": "plot",
+					"settings": {
+						"title": "Tension et vitesses",
+						"xaxis": "datasource_column",
+						"time": "datasources[\"ws\"][\"Temps\"]",
+						"time_window": "4",
+						"value": [
+							"datasources[\"ws\"][\"Consigne\"]",
+							"datasources[\"ws\"][\"omegaArriereDroit\"]",
+							"datasources[\"ws\"][\"omegaArriereGauche\"]",
+							"datasources[\"ws\"][\"omegaAvantDroit\"]",
+							"datasources[\"ws\"][\"omegaAvantGauche\"]"
+						],
+						"y_axis_min_range": "-1,1",
+						"include_legend": true,
+						"legendStr": "omega ref,omega arrière droit, omega arrière gauche, omega avant droit, omega avant gauche",
+						"height": 4,
+						"pausable": true
+					}
+				},
+				{
+					"type": "plot",
+					"settings": {
+						"title": "Commandes",
+						"xaxis": "datasource_column",
+						"time": "datasources[\"ws\"][\"Temps\"]",
+						"time_window": "4",
+						"value": [
+							"datasources[\"ws\"][\"commandeArriereDroit\"]",
+							"datasources[\"ws\"][\"commandeArriereGauche\"]",
+							"datasources[\"ws\"][\"commandeAvantDroit\"]",
+							"datasources[\"ws\"][\"commandeAvantGauche\"]"
+						],
+						"y_axis_min_range": "-1,1",
+						"include_legend": true,
+						"legendStr": "Commande arrière droit,Commande arrière gauche,Commande avant droit,Commande avant gauche",
+						"height": 4,
+						"pausable": true
+					}
+				}
+			]
+		},
+		{
 			"title": "Gains du PID",
 			"width": 1,
 			"row": {
@@ -228,29 +253,6 @@
 						"value": [
 							"datasources[\"ws\"][\"Raw\"]"
 						]
-					}
-				}
-			]
-		},
-		{
-			"title": "Choix des moteurs",
-			"width": 1,
-			"row": {
-				"3": 1
-			},
-			"col": {
-				"3": 3
-			},
-			"col_width": 1,
-			"widgets": [
-				{
-					"type": "select",
-					"settings": {
-						"title": "Moteur à piloter",
-						"datasourcename": "ws",
-						"variable": "datasources[\"ws\"][\"moteurint\"]",
-						"listcaptions": "Aucun,Arrière droit,Arrière gauche,Avant droit,Avant gauche,Tous",
-						"listvalues": "0,1,2,3,4,5"
 					}
 				}
 			]
