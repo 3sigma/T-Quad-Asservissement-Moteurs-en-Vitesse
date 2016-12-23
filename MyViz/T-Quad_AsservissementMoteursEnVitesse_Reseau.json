@@ -230,6 +230,20 @@
 						"resetvalue": 2.45,
 						"resetcaption": "Réinitialisation"
 					}
+				},
+				{
+					"type": "slider",
+					"settings": {
+						"title": "Kd",
+						"datasourcename": "ws",
+						"variable": "datasources[\"ws\"]",
+						"initialvalue": 0,
+						"min": 0,
+						"max": 0.1,
+						"resolution": 2,
+						"resetvalue": 0,
+						"resetcaption": "Réinitialisation"
+					}
 				}
 			]
 		},
@@ -264,7 +278,7 @@
 			"type": "websocket",
 			"settings": {
 				"host": "ws://192.168.0.199:9090/ws",
-				"variables_to_send": "typeSignal,offset,amplitude,frequence,moteurint,Kp,Ki",
+				"variables_to_send": "typeSignal,offset,amplitude,frequence,moteurint,Kp,Ki,Kp",
 				"refresh_rate": "500",
 				"checksum": "sum"
 			}
