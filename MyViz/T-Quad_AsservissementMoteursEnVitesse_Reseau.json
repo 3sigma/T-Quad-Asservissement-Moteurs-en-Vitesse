@@ -51,7 +51,6 @@
 					"type": "switchbutton",
 					"settings": {
 						"title": "Type de signal (carré ou sinus)",
-						"datasourcename": "ws",
 						"variable": "datasources[\"ws\"][\"typeSignal\"]",
 						"yestext": "Sinus",
 						"notext": "Carré",
@@ -62,7 +61,6 @@
 					"type": "slider",
 					"settings": {
 						"title": "Offset",
-						"datasourcename": "ws",
 						"variable": "datasources[\"ws\"][\"offset\"]",
 						"formula": "x",
 						"initialvalue": 0,
@@ -77,7 +75,6 @@
 					"type": "slider",
 					"settings": {
 						"title": "Amplitude",
-						"datasourcename": "ws",
 						"variable": "datasources[\"ws\"][\"amplitude\"]",
 						"formula": "x",
 						"initialvalue": 0,
@@ -92,7 +89,6 @@
 					"type": "slider",
 					"settings": {
 						"title": "Fréquence",
-						"datasourcename": "ws",
 						"variable": "datasources[\"ws\"][\"frequence\"]",
 						"formula": "x",
 						"initialvalue": 0,
@@ -120,7 +116,6 @@
 					"type": "select",
 					"settings": {
 						"title": "Moteur à piloter",
-						"datasourcename": "ws",
 						"variable": "datasources[\"ws\"][\"moteurint\"]",
 						"listcaptions": "Aucun,Arrière droit,Arrière gauche,Avant droit,Avant gauche,Tous",
 						"listvalues": "0,1,2,3,4,5"
@@ -205,7 +200,6 @@
 					"type": "slider",
 					"settings": {
 						"title": "Kp",
-						"datasourcename": "ws",
 						"variable": "datasources[\"ws\"][\"Kp\"]",
 						"formula": "x",
 						"initialvalue": 0.045,
@@ -220,7 +214,6 @@
 					"type": "slider",
 					"settings": {
 						"title": "Ki",
-						"datasourcename": "ws",
 						"variable": "datasources[\"ws\"][\"Ki\"]",
 						"formula": "x",
 						"initialvalue": 2.45,
@@ -235,7 +228,6 @@
 					"type": "slider",
 					"settings": {
 						"title": "Kd",
-						"datasourcename": "ws",
 						"variable": "datasources[\"ws\"]",
 						"initialvalue": 0,
 						"min": 0,
